@@ -10,7 +10,7 @@ fake = Faker()
 
 
 
-# TODO/Assignment
+# TODO/Assignment in SEED.py
 # Create 3 users
 # Create 9 posts
 # Add 1 comment in each post
