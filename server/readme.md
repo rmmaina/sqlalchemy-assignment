@@ -115,6 +115,6 @@ Database normalization
 One-to-many relationship mapping
 Data seeding with Faker
 Flask-Migrate workflow
-Author
 
+Author
 Robert Maina
