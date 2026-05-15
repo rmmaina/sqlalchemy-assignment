@@ -1,84 +1,120 @@
-Flask SQLAlchemy Assignment
-Overview
+# Flask SQLAlchemy Blog API
 
-This project is a Flask application that uses SQLAlchemy ORM to manage a simple database system consisting of Users, Posts, and Comments. It demonstrates database modeling, relationships, and data seeding.
+## Overview
+This project is a Flask-based backend application built using SQLAlchemy ORM. It demonstrates relational database design, model relationships, and database seeding using Faker.
 
-Technologies Used
-Python
-Flask
-Flask-SQLAlchemy
-Flask-Migrate
-SQLite
-Faker
-Project Structure
+The system models a simple blog structure with Users, Posts, and Comments.
+
+---
+
+## Features
+- User, Post, and Comment models
+- One-to-many relationships
+- Database seeding with realistic fake data
+- Flask-Migrate integration for database versioning
+- SQLite database for storage
+
+---
+
+## Tech Stack
+- Python
+- Flask
+- Flask-SQLAlchemy
+- Flask-Migrate
+- SQLite
+- Faker
+
+---
+
+## Project Structure
+
+
 server/
 │
-├── app.py              # Flask application setup
-├── models.py           # Database models
-├── seed.py             # Database seeding script
-├── views/              # Application routes
-├── migrations/         # Migration files
+├── app.py # Flask application setup
+├── models.py # Database models
+├── seed.py # Database seeding script
+├── views/ # Application routes
+├── migrations/ # Database migrations
 ├── instance/
-└── database.db         # SQLite database file
-Database Models
-User
-id (Primary Key)
-username (String)
+└── database.db # SQLite database file
 
-Relationships:
 
-One user has many posts
-Post
-id (Primary Key)
-title (String)
-content (Text)
-user_id (Foreign Key)
+---
 
-Relationships:
+## Database Design
 
-Belongs to a user
-Has many comments
-Comment
-id (Primary Key)
-message (Text)
-post_id (Foreign Key)
+### User
+- id (Primary Key)
+- username (String)
 
-Relationships:
+**Relationships:**
+- A user can create multiple posts
 
-Belongs to a post
-Database Seeding
+---
 
-The seed.py script performs the following:
+### Post
+- id (Primary Key)
+- title (String)
+- content (Text)
+- user_id (Foreign Key → User.id)
 
-Deletes existing data from all tables
-Creates 3 users
-Creates 9 posts (distributed among users)
-Creates 1 comment per post
-Uses Faker to generate sample data
+**Relationships:**
+- Belongs to a user
+- Has multiple comments
 
-How to Run the Project
-1. Install dependencies
+---
+
+### Comment
+- id (Primary Key)
+- message (Text)
+- post_id (Foreign Key → Post.id)
+
+**Relationships:**
+- Belongs to a post
+
+---
+
+## Database Seeding
+
+The `seed.py` script performs the following operations:
+
+- Clears existing database records
+- Creates 3 users
+- Creates 9 posts (distributed among users)
+- Creates 1 comment per post
+- Uses Faker to generate realistic sample data
+
+---
+
+## Setup Instructions
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+cd server
+2. Install dependencies
 pip install flask flask_sqlalchemy flask_migrate flask_cors faker
-2. Initialize database migrations (if needed)
+3. Initialize database migrations
 flask db init
 flask db migrate
 flask db upgrade
-3. Run the seed script
+4. Seed the database
 python seed.py
+Expected Output
 
-Expected Output After Seeding
- 3 users created
- 9 posts created
- 9 comments created
+After running the seed script:
 
-Setup Instructions
-
-Clone the repository
-Navigate to the project folder
-Install dependencies
-Run migrations
-Seed the database
-
-
+3 users created
+9 posts created
+9 comments created
+Key Concepts Demonstrated
+Flask application architecture
+SQLAlchemy ORM relationships
+Database normalization
+One-to-many relationship mapping
+Data seeding with Faker
+Flask-Migrate workflow
 Author
+
 Robert Maina
