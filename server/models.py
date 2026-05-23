@@ -1,22 +1,92 @@
-from app import db
+from extensions import db
+from sqlalchemy_serializer import SerializerMixin
 
-# MODELS
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), nullable=False)
 
-    posts = db.relationship("Post", backref='user')
+# USER MODEL
+class User(db.Model, SerializerMixin):
 
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id") )
+    __tablename__ = "users"
 
-    comments = db.relationship("Comment", backref='post')
+    serialize_rules = (
+        '-posts.user',
+    )
 
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    message = db.Column(db.Text, nullable=False)
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
-    post_id = db.Column(db.Integer, db.ForeignKey("post.id"))
+    username = db.Column(
+        db.String(100),
+        nullable=False
+    )
+
+    # RELATIONSHIP
+    posts = db.relationship(
+        "Post",
+        backref='user',
+        cascade="all, delete-orphan"
+    )
+
+
+# POST MODEL
+class Post(db.Model, SerializerMixin):
+
+    __tablename__ = "posts"
+
+    serialize_rules = (
+        '-user.posts',
+        '-comments.post',
+    )
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    title = db.Column(
+        db.String(100),
+        nullable=False
+    )
+
+    content = db.Column(
+        db.Text,
+        nullable=False
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("users.id")
+    )
+
+    # RELATIONSHIP
+    comments = db.relationship(
+        "Comment",
+        backref='post',
+        cascade="all, delete-orphan"
+    )
+
+
+# COMMENT MODEL
+class Comment(db.Model, SerializerMixin):
+
+    __tablename__ = "comments"
+
+    serialize_rules = (
+        '-post.comments',
+    )
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    message = db.Column(
+        db.Text,
+        nullable=False
+    )
+
+    post_id = db.Column(
+        db.Integer,
+        db.ForeignKey("posts.id")
+    )
